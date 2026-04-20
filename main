@@ -31,4 +31,28 @@ class SpeechTasks:
         except Exception as e:
             print(f"Error en Local STT: {e}")
 
-    
+    # 3. External API Text to Speech (TTS)
+    def external_tts(self, text, output_file="output_external.mp3"):
+        print("\n--- 3. External API TTS ---")
+        print(f"Enviando texto a Google API para TTS: '{text}'")
+        # gTTS hace una petición a la API de Google Translate
+        tts = gTTS(text=text, lang='es')
+        tts.save(output_file)
+        print(f"Audio guardado exitosamente en: {output_file}")
+       
+
+    # 4. External API Speech to Text (STT)
+    def external_stt(self, audio_file_path):
+        print("\n--- 4. External API STT ---")
+        print("Enviando audio a la API de Google para transcripción...")
+        recognizer = sr.Recognizer()
+        
+        with sr.AudioFile(audio_file_path) as source:
+            audio_data = recognizer.record(source)
+            try:
+                text = recognizer.recognize_google(audio_data, language="es-ES")
+                print(f"Transcripción API Externa: {text}")
+            except sr.UnknownValueError:
+                print("La API no pudo entender el audio.")
+            except sr.RequestError as e:
+                print(f"No se pudo conectar con la API de Google; {e}")
