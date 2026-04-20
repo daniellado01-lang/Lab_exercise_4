@@ -19,4 +19,16 @@ class SpeechTasks:
         engine.say(text)
         engine.runAndWait()
 
-  
+    # 2. Local Speech to Text (STT)
+    def local_stt(self, audio_file_path):
+        print("\n--- 2. Local STT ---")
+        print(f"Transcribiendo localmente el archivo: {audio_file_path}")
+        try:
+            # Usamos Whisper en su versión 'tiny' para que corra rápido y en local
+            model = whisper.load_model("tiny")
+            result = model.transcribe(audio_file_path)
+            print(f"Transcripción local: {result['text']}")
+        except Exception as e:
+            print(f"Error en Local STT: {e}")
+
+    
