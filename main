@@ -56,3 +56,43 @@ class SpeechTasks:
                 print("La API no pudo entender el audio.")
             except sr.RequestError as e:
                 print(f"No se pudo conectar con la API de Google; {e}")
+
+ # 5. Inteligencia de Audio (Resumen/Detección de idioma)
+    def advanced_audio_task(self, audio_url):
+        print("\n--- 5. Advanced Audio Task (External API) ---")
+        print("Tarea: Resumen automático de audio usando AssemblyAI (Requiere API Key)")
+        
+        #  API KEY de AssemblyAI 
+        API_KEY = "TU_ASSEMBLYAI_API_KEY_AQUI" 
+        
+        if API_KEY == "TU_ASSEMBLYAI_API_KEY_AQUI":
+            print(" Aviso: Reemplaza 'TU_ASSEMBLYAI_API_KEY_AQUI' con una clave válida para ver el resultado real.")
+            return
+
+        headers = {"authorization": API_KEY}
+        endpoint = "https://api.assemblyai.com/v2/transcript"
+        
+        #  Summarization
+        json_data = {
+            "audio_url": audio_url,
+            "summarization": True,
+            "summary_model": "informative",
+            "summary_type": "bullets"
+        }
+        
+        response = requests.post(endpoint, json=json_data, headers=headers)
+        transcript_id = response.json().get('id')
+        
+        # Esperamos a que la IA procese el audio
+        print("Procesando inteligencia de audio...")
+        while True:
+            polling_response = requests.get(f"{endpoint}/{transcript_id}", headers=headers)
+            status = polling_response.json().get('status')
+            if status == 'completed':
+                print("\n Resumen del audio generado:")
+                print(polling_response.json().get('summary'))
+                break
+            elif status == 'error':
+                print("Error al procesar el audio.")
+                break
+            time.sleep(3)               
