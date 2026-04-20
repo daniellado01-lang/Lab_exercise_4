@@ -96,3 +96,23 @@ class SpeechTasks:
                 print("Error al procesar el audio.")
                 break
             time.sleep(3)               
+
+#  Ejecución del código 
+if __name__ == "__main__":
+    practica = SpeechTasks()
+    
+    # Texto y archivo de prueba 
+    texto_prueba = "Hola, esta es una prueba para mi práctica de la universidad."
+    archivo_audio_prueba = "audio_prueba.wav" 
+    
+    if os.path.exists(archivo_audio_prueba):
+        practica.local_tts(texto_prueba)
+        practica.external_tts(texto_prueba)
+        practica.local_stt(archivo_audio_prueba)
+        practica.external_stt(archivo_audio_prueba)
+    else:
+        print(f"\n No se encontró '{archivo_audio_prueba}'. Ejecutando solo tareas TTS...")
+        practica.local_tts(texto_prueba)
+        practica.external_tts(texto_prueba)
+        
+    
