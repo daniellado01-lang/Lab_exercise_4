@@ -1,0 +1,22 @@
+import pyttsx3
+from gtts import gTTS
+import speech_recognition as sr
+import whisper
+import os
+import requests
+import time
+
+class SpeechTasks:
+    def __init__(self):
+        print("Iniciando el gestor de tareas de voz...")
+
+    # 1. Local Text to Speech (TTS)
+    def local_tts(self, text):
+        print("\n--- 1. Local TTS ---")
+        print(f"Generando audio local para: '{text}'")
+        # Inicializa pyttsx3 que usa el motor de voz nativo del sistema operativo (offline)
+        engine = pyttsx3.init()
+        engine.say(text)
+        engine.runAndWait()
+
+  
